@@ -7,6 +7,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { TaskListPage } from '../pages/tasklist/tasklist';
 
+import { CommonModule } from '@angular/common';  
+
 @NgModule({
   declarations: [
     MyApp,
@@ -14,6 +16,7 @@ import { TaskListPage } from '../pages/tasklist/tasklist';
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

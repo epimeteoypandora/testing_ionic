@@ -1,18 +1,125 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-      Ionic Blank
+      Móvil Anuncios
     </ion-title>
-    <ion-buttons end>
+    <!--<ion-buttons end>
       <button ion-button icon-left (click)="addItem()">Add Item</button>
-    </ion-buttons>    
+    </ion-buttons>    -->
   </ion-navbar> 
 </ion-header>
 
 
 
 <ion-content>
-  <ion-list>
+    <form > <!-- (ngSubmit)="logForm()"" -->
+      <ion-searchbar [(ngModel)]="searcher" [ngModelOptions]="{standalone: true}" placeholder="¿Qué estás buscando?"></ion-searchbar> <!-- (ionInput)="getItems($event)"-->
+      
+      <ion-item>
+        <ion-label>País</ion-label>
+        <ion-select [(ngModel)]="countrySelected" [ngModelOptions]="{standalone: true}">    
+              <ion-option value="-1">-</ion-option>   
+                 <!--<div *ngIf="isValid && true && false">-->
+                <ion-option *ngFor="let c of countries; let i = index"  value="{{i}}">{{c.name}}</ion-option>  
+               <!--</div> -->
+        </ion-select>
+      </ion-item>      
+
+<div *ngIf="countrySelected>=0 && countrySelected<countries.length">    
+      <ion-item>
+        <ion-label>Comunidad Autónoma</ion-label>
+        <ion-select [(ngModel)]="stateSelected" [ngModelOptions]="{standalone: true}">    
+              <ion-option value="-1">-</ion-option>   
+              <!--<div *ngIf="countrySelected>=0 && countrySelected<countries.length">      -->
+                <ion-option *ngFor="let c of countries[countrySelected].states; let i = index" value="{{i}}">{{c.name}}</ion-option>  
+              <!--</div>-->
+        </ion-select>
+      </ion-item>  
+</div>	  
+
+<div *ngIf="countrySelected>=0 && countrySelected<countries.length && stateSelected>=0 && stateSelected<countries[countrySelected].states.length">  
+      <ion-item>
+        <ion-label>Provincia</ion-label>
+        <ion-select [(ngModel)]="provinceSelected" [ngModelOptions]="{standalone: true}">  
+              <ion-option value="-1">-</ion-option>      
+              <!--<div *ngIf="countrySelected>=0 && countrySelected<countries.length && stateSelected>=0 && stateSelected<countries[countrySelected].states.length">                           -->
+                <ion-option *ngFor="let c of countries[countrySelected].states[stateSelected].provinces; let i = index" value="{{i}}">{{c.name}}</ion-option>  
+              <!--</div>        -->
+        </ion-select>
+      </ion-item>  
+</div>
+
+<div *ngIf="countrySelected>=0 && countrySelected<countries.length && stateSelected>=0 && stateSelected<countries[countrySelected].states.length && provinceSelected>=0 && provinceSelected<countries[countrySelected].states[stateSelected].provinces.length">   
+      <ion-item>
+        <ion-label>Localidad</ion-label>
+        <ion-select [(ngModel)]="townSelected" [ngModelOptions]="{standalone: true}"> 
+              <ion-option value="-1">-</ion-option>        
+              <!--<div *ngIf="countrySelected>=0 && countrySelected<countries.length && stateSelected>=0 && stateSelected<countries[countrySelected].states.length && provinceSelected>=0 && provinceSelected<countries[countrySelected].states[stateSelected].provinces.length">                         -->
+                <ion-option *ngFor="let c of countries[countrySelected].states[stateSelected].provinces[provinceSelected].towns; let i = index" value="{{i}}">{{c.name}}</ion-option>  
+              <!--</div>   -->
+        </ion-select>
+      </ion-item> 
+</div>       
+      
+<div *ngIf="countrySelected>=0 && countrySelected<countries.length && stateSelected>=0 && stateSelected<countries[countrySelected].states.length && provinceSelected>=0 && provinceSelected<countries[countrySelected].states[stateSelected].provinces.length && townSelected>=0 && townSelected<countries[countrySelected].states[stateSelected].provinces[provinceSelected].towns.length">        
+      <ion-item>
+        <ion-label>Punto de Interés</ion-label>
+        <ion-select [(ngModel)]="pointOfInterestSelected" [ngModelOptions]="{standalone: true}">
+              <ion-option value="-1">-</ion-option>     
+              <!--<div *ngIf="countrySelected>=0 && countrySelected<countries.length && stateSelected>=0 && stateSelected<countries[countrySelected].states.length && provinceSelected>=0 && provinceSelected<countries[countrySelected].states[stateSelected].provinces.length && townSelected>=0 && townSelected<countries[countrySelected].states[stateSelected].provinces[provinceSelected].towns.length">                         -->
+                <ion-option *ngFor="let c of countries[countrySelected].states[stateSelected].provinces[provinceSelected].towns[townSelected].pointsOfInterest; let i = index" value="{{i}}">{{c.name}}</ion-option>  
+              <!--</div>  -->
+        </ion-select>
+      </ion-item>  
+</div>
+
+
+      <ion-item>
+        <ion-label>Categoría</ion-label>
+        <ion-select [(ngModel)]="categorySelected" [ngModelOptions]="{standalone: true}">
+              <ion-option value="-1">-</ion-option>                      
+                <ion-option *ngFor="let c of categories; let i = index" value="{{i}}">{{c.name}}</ion-option>  
+        </ion-select>
+      </ion-item>  
+
+      <!--<ion-item>-->
+        <!--<ion-label>Todo</ion-label>-->
+        <!--<ion-input type="text"  name="title"></ion-input>--> <!-- [(ngModel)]="todo.title" -->
+      <!--</ion-item>-->
+      <!--<ion-item>-->
+        <!--<ion-label>Description</ion-label>-->
+        <!--<ion-textarea  name="description"></ion-textarea>--> <!-- [(ngModel)]="todo.description" -->
+      <!--</ion-item>-->
+      <button ion-button type="submit" (click)="see()" block>Buscar</button>
+    </form>
+
+
+
+      <ion-list>
+        <!--<ion-label>Resultados</ion-label>-->
+        <ion-item *ngFor="let c of selectedAdverts">
+            <ion-card>
+              <img src="/assets/img/malaga.jpg"/>
+              <ion-card-content>
+                <ion-card-title>
+                  {{c.name}}
+                  </ion-card-title>
+                <p>
+                  {{c.name}}
+                  The most popular industrial group ever, and largely
+                  responsible for bringing the music to a mass audience.
+                </p>
+              </ion-card-content>
+            </ion-card>          
+          
+          <!--{{c.name}}-->
+          </ion-item>
+      </ion-list>  
+
+
+
+    
+  <!--<ion-list>
 <ion-item-sliding *ngFor="let task of tasks" #slidingItem (ionSwipe)="removeTask(slidingItem, task)">
       <ion-item [ngClass]="{taskDone: task.status == 'done'}">
         {{task.title}}
@@ -26,8 +133,14 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
-  </ion-list>
+  </ion-list>-->
+
+
+
 </ion-content>
+
+
+
 <!--<ion-content padding>
   The world is your oyster.
   <p>
